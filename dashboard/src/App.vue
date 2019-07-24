@@ -35,10 +35,10 @@
           <b-button-group>
             <b-button variant="success" v-b-modal.edit-newtype>新建</b-button>
             <b-button variant="info" v-b-modal.edit-updatetype>修改</b-button>
-            <b-button variant="danger">删除</b-button>
+            <b-button variant="danger" @click="t_del">删除</b-button>
           </b-button-group>
           <p></p>
-          <b-button size="lg" variant="success" block>保存</b-button>
+          <b-button size="lg" variant="success" block @click="publish">保存</b-button>
         </b-col>
         <b-col cols="3">
           <b-form-group
@@ -237,6 +237,7 @@ export default {
         player:'',
       },
       globalfile:{},
+      userfile:{},
       ipfsapi:"",
       server_url:['/ip4/127.0.0.1/tcp/5001'],
       ipfskey:'',
@@ -244,10 +245,7 @@ export default {
       selectetype:'',
       type_list:[],
       selectevideo:'',
-      video_list:[{
-        text:'爱死亡和机器人',
-        value:'QmPxVxSM5bPsEQsNGA12wBX3BDfEZDYzqExALJV3vBhdEf'
-      }],
+      video_list:[],
       videofile:'',
       videofile_list:[],
       video:{
@@ -378,7 +376,6 @@ export default {
         if(this.avatarselect){
           let file = await ipfs.add(this.avatarselect);
           this.avatar = '/ipfs/'+file[0].hash;
-          console.log(this.avatar);
         }
       },50);
     },
@@ -415,7 +412,7 @@ export default {
       newhash = await ipfs.object.patch.addLink(newhash, {
         name: 'user.json',size: results[0].size, cid:results[0].hash
       });
-      const res = await ipfs.name.publish(newhash.string,{key:this.keyid,lifetime:'24h'});
+      const res = await ipfs.name.publish(newhash.string,{key:this.keyid,lifetime:'168h'});
       console.log(res);
     },
     async u_del(){
@@ -425,9 +422,18 @@ export default {
     // 编辑类型
     async changeuserlist(){
       const ipfs = ipfsClient(this.ipfsapi);
-      console.log(this.ipfskey);
       this.usertemp = await ipfs.name.resolve('/ipns/'+this.ipfskey);
       this.usertemp = this.usertemp.substr(6);
+      let res = await ipfs.object.links(this.usertemp);
+      for (let i = 0; i < res.length; i++) {
+        if(res[i].Name==='global.json'){
+          this.userfile = {
+            hash:res[i].Hash.string,
+            size:res[i].Tsize,
+          };
+          break;
+        }
+      }
       let typetemp = await ipfs.cat(this.usertemp+'/user.json');
       typetemp = JSON.parse(typetemp);
       for(let i=0;i<typetemp.type.length;i++){
@@ -478,7 +484,36 @@ export default {
         name: 'user.json',size: results[0].size, cid:results[0].hash
       });
       this.usertemp = newhash.string;
-      console.log(this.usertemp);
+      this.type_list = [];
+      for(let i=0;i<typetemp.type.length;i++){
+        this.type_list.push({
+          "text":typetemp.type[i].title,
+          "value":typetemp.type[i].name,
+        });
+      }
+    },
+    async t_del(){
+      const ipfs = ipfsClient(this.ipfsapi);
+      let typetemp = await ipfs.cat(this.usertemp+'/user.json');
+      typetemp = JSON.parse(typetemp);
+      let ind=-1;
+      for (let i = 0; i < typetemp.type.length; i++) {
+        if(typetemp.type[i].name === this.selectetype){
+          ind = i;
+          break;
+        }
+      }
+      let r = confirm('确认删除?');
+      if(!r)return;
+      typetemp.type.splice(ind,1);
+      const results = await ipfs.add(Buffer.from(JSON.stringify(typetemp)));
+      let newhash = await ipfs.object.patch.rmLink(this.usertemp,{Name: 'user.json'});
+      newhash = await ipfs.object.patch.addLink(newhash, {
+        name: 'user.json',size: results[0].size, cid:results[0].hash
+      });
+      newhash = await ipfs.object.patch.rmLink(newhash,{Name: this.selectetype+'.json'});
+      this.usertemp = newhash.string;
+
       this.type_list = [];
       for(let i=0;i<typetemp.type.length;i++){
         this.type_list.push({
@@ -490,9 +525,7 @@ export default {
     async changetypelist(){
       const ipfs = ipfsClient(this.ipfsapi);
       let typetemp = await ipfs.cat(this.usertemp+'/'+this.selectetype+'.json');
-      console.log(typetemp)
       typetemp = JSON.parse(typetemp);
-      console.log(typetemp)
       this.video_list = [];
       for(let i=0;i<typetemp.length;i++){
         this.video_list.push({
@@ -500,13 +533,12 @@ export default {
           "value":typetemp[i].url,
         });
       }
-
     },
     //视频列表操作
     async changevideolist(){
       const ipfs = ipfsClient(this.ipfsapi);
-      this.temphash = this.selectevideo;
-      let vfile = await ipfs.object.get(this.selectevideo);
+      this.temphash = this.selectevideo.substr(6);
+      let vfile = await ipfs.object.get(this.temphash);
       this.filejson = vfile['files.json'].string;
       let videoinfo = await ipfs.cat(this.filejson);
       videoinfo = JSON.parse(videoinfo);
@@ -627,17 +659,21 @@ export default {
       videoinfo.cover = this.videocover;
       const results = await ipfs.add(Buffer.from(JSON.stringify(videoinfo)));
       this.filejson = results[0].hash;
-      let newhash = await ipfs.object.patch.rmLink(this.temphash,{Name: 'files.json'});
-      newhash = await ipfs.object.patch.addLink(newhash, {
+      let newhash = await ipfs.object.patch.addLink(this.template.player,{
         name: 'files.json',size: results[0].size, cid:results[0].hash
       });
+      newhash = await ipfs.object.patch.addLink(newhash,{
+        name: 'global.json',size: this.globalfile.size, cid:this.globalfile.hash
+      });
+      newhash = await ipfs.object.patch.addLink(newhash,{
+        name: 'user.json',size: this.userfile.size, cid:this.userfile.hash
+      });
       this.temphash = newhash.string;
-      console.log(this.temphash);
 
       let typetemp = await ipfs.cat(this.usertemp+'/'+this.selectetype+'.json');
       typetemp = JSON.parse(typetemp);
       for (let i = 0; i < typetemp.length; i++) {
-        if(typetemp[i].url==='/ipfs/'+this.selectevideo){
+        if(typetemp[i].url===this.selectevideo){
           typetemp[i]={
             title:videoinfo.title,
             cover:videoinfo.cover,
@@ -651,11 +687,7 @@ export default {
         name: this.selectetype+'.json',size: results2[0].size, cid:results2[0].hash
       });
       this.usertemp = newhash2.string;
-      console.log(this.usertemp);
-      typetemp = await ipfs.cat(this.usertemp+'/'+this.selectetype+'.json');
-      console.log(typetemp)
-      typetemp = JSON.parse(typetemp);
-      console.log(typetemp)
+
       this.video_list = [];
       for(let i=0;i<typetemp.length;i++){
         this.video_list.push({
@@ -663,7 +695,6 @@ export default {
           "value":typetemp[i].url,
         });
       }
-
     },
     //文件操作
     async f_upload(){
@@ -673,6 +704,12 @@ export default {
       videoinfo = JSON.parse(videoinfo);
       let newhash = await ipfs.object.patch.addLink(this.template.player, {
         name: 'files.json',size: results.size, cid:this.videohash
+      });
+      newhash = await ipfs.object.patch.addLink(newhash,{
+        name: 'global.json',size: this.globalfile.size, cid:this.globalfile.hash
+      });
+      newhash = await ipfs.object.patch.addLink(newhash,{
+        name: 'user.json',size: this.userfile.size, cid:this.userfile.hash
       });
       let playerhash = newhash.string;
 
@@ -703,11 +740,60 @@ export default {
         console.log(this.coverselect);
         if(this.coverselect){
           let file = await ipfs.add(this.coverselect);
-          this.videocover = file[0].hash;
-          console.log(this.videocover);
+          this.videocover = '/ipfs/'+ file[0].hash;
         }
       },50);
-    }
+    },
+    async publish(){
+      const ipfs = ipfsClient(this.ipfsapi);
+      let res = await ipfs.object.links(this.usertemp);
+      let userjson = {};
+      let tempjson = [];
+      let name = '';
+      for (let i = 0; i < res.length; i++) {
+        if(res[i].Name==='user.json'){
+          userjson = {
+            hash:res[i].Hash.string,
+            size:res[i].Tsize,
+          };
+          break;
+        }
+      }
+      let res2 = await ipfs.cat(userjson.hash);
+      res2 = JSON.parse(res2);
+      for (let i = 0; i < res2.type.length; i++) {
+        for (let j = 0; j < res.length; j++) {
+          if(res[j].Name===res2.type[i].name+'.json'){
+            tempjson.push({
+              hash:res[j].Hash.string,
+              size:res[j].Tsize,
+              name:res2.type[i].name
+            });
+            break;
+          }
+        }
+      }
+      let newhash = await ipfs.object.patch.addLink(this.template.userlist, {
+        name: 'user.json',size: userjson.size, cid:userjson.hash
+      });
+      newhash = await ipfs.object.patch.addLink(newhash,{
+        name: 'global.json',size: this.globalfile.size, cid:this.globalfile.hash
+      });
+      for (let i = 0; i < tempjson.length; i++) {
+        newhash = await ipfs.object.patch.addLink(newhash, {
+          name: tempjson[i].name+'.json',size: tempjson[i].size, cid:tempjson[i].hash
+        });
+      }
+      let res4 = await ipfs.key.list();
+      for (let i = 0; i < res4.length; i++) {
+        if(res4[i].id === this.ipfskey){
+          name = res4[i].name;
+          break;
+        }
+      }
+      const res3 = await ipfs.name.publish(newhash.string,{key:name,lifetime:'168h'});
+      console.log(res3);
+    },
   },
   created() {
     this.init()

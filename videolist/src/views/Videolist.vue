@@ -40,10 +40,11 @@ export default {
       let tempvideolist=[];
       let type = await Axios.get('./user.json');
       for (let i = 0; i < type.data.type.length; i++) {
-        const vlist = await Axios.get('./'+type.data.type[i].name+'.json')
-        tempvideolist = tempvideolist.concat(vlist.data.videolist);
+        const vlist = await Axios.get('./'+type.data.type[i].name+'.json');
+        tempvideolist = tempvideolist.concat(vlist.data);
       }
       this.videolist = tempvideolist;
+      console.log(this.videolist)
     }
   },
   created(){

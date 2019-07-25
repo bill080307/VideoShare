@@ -426,7 +426,7 @@ export default {
       this.usertemp = this.usertemp.substr(6);
       let res = await ipfs.object.links(this.usertemp);
       for (let i = 0; i < res.length; i++) {
-        if(res[i].Name==='global.json'){
+        if(res[i].Name==='user.json'){
           this.userfile = {
             hash:res[i].Hash.string,
             size:res[i].Tsize,

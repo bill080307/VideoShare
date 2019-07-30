@@ -1,6 +1,6 @@
 <template>
   <div class="videolist">
-    <b-container fluid>
+    <b-container>
       <b-row>
         <b-col sm="12" md="6" lg="4" xl="3" v-for="(video,index) in videolist" :key="index">
           <b-card :img-src="video.cover">
@@ -33,7 +33,7 @@ export default {
     },
     getlist(type){
       Axios.get('./'+type+'.json').then((res)=>{
-        this.videolist = res.data.videolist;
+        this.videolist = res.data;
       });
     },
     async getalllist(){

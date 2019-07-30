@@ -22,6 +22,17 @@
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
+    <b-container>
+      <b-row>
+        <b-col cols="3">
+          <b-img fluid :src="user.avatar"></b-img>
+        </b-col>
+        <b-col cols="9">
+          <h1>{{ user.username }}</h1>
+          <p> {{ user.description }}</p>
+        </b-col>
+      </b-row>
+    </b-container>
     <router-view/>
   </div>
 </template>

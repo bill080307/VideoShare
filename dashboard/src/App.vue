@@ -312,6 +312,7 @@ export default {
     changeserverlist(){
       const ipfs = ipfsClient(this.ipfsapi);
       ipfs.key.list((err, keys) => {
+        this.key_list = [];
         for(let i=0;i<keys.length;i++){
           this.key_list.push({
             "text":keys[i].name,
@@ -425,6 +426,7 @@ export default {
       this.usertemp = await ipfs.name.resolve('/ipns/'+this.ipfskey);
       this.usertemp = this.usertemp.substr(6);
       let res = await ipfs.object.links(this.usertemp);
+      this.userfile = [];
       for (let i = 0; i < res.length; i++) {
         if(res[i].Name==='user.json'){
           this.userfile = {
@@ -462,6 +464,7 @@ export default {
       });
       this.usertemp = newhash.string;
       console.log(this.usertemp);
+      this.type_list = [];
       for(let i=0;i<typetemp.type.length;i++){
         this.type_list.push({
           "text":typetemp.type[i].title,
@@ -524,6 +527,12 @@ export default {
     },
     async changetypelist(){
       const ipfs = ipfsClient(this.ipfsapi);
+      for (let i=0;i<this.type_list.length;i++){
+        if (this.type_list[i].value===this.selectetype){
+          this.typetitle = this.type_list[i].text
+        }
+      }
+      this.typeid = this.selectetype;
       let typetemp = await ipfs.cat(this.usertemp+'/'+this.selectetype+'.json');
       typetemp = JSON.parse(typetemp);
       this.video_list = [];
@@ -545,6 +554,7 @@ export default {
       this.video.title = videoinfo.title;
       this.video.description = videoinfo.description;
       this.videocover = videoinfo.cover;
+      this.videofile_list = [];
       for(let i=0;i<videoinfo.files.length;i++){
         this.videofile_list.push({
           "text":videoinfo.files[i].title,

@@ -89,6 +89,9 @@
             <b-form-select id="file-list" :select-size="15" v-model="videofile" :options="videofile_list"></b-form-select>
           </b-form-group>
           <b-button-group>
+            <b-button variant="danger" @click="v_del">删除视频</b-button>
+          </b-button-group>
+          <b-button-group>
             <b-button variant="success" @click="f_moveup">上移</b-button>
             <b-button variant="success" @click="f_movedown">下移</b-button>
           </b-button-group>
@@ -438,6 +441,7 @@ export default {
       }
       let typetemp = await ipfs.cat(this.usertemp+'/user.json');
       typetemp = JSON.parse(typetemp);
+      this.type_list = [];
       for(let i=0;i<typetemp.type.length;i++){
         this.type_list.push({
           "text":typetemp.type[i].title,
@@ -559,6 +563,34 @@ export default {
         this.videofile_list.push({
           "text":videoinfo.files[i].title,
           "value":videoinfo.files[i].url,
+        });
+      }
+    },
+    async v_del(){
+      const ipfs = ipfsClient(this.ipfsapi);
+      let ind=-1;
+      for(let i=0;i<this.video_list.length;i++){
+        if(this.video_list[i].value==='/ipfs/'+this.selectevideo){
+          ind = i;
+          break;
+        }
+      }
+      let r = confirm('确认删除?');
+      if(!r)return;
+      let typetemp = await ipfs.cat(this.usertemp+'/'+this.selectetype+'.json');
+      let videos = JSON.parse(typetemp);
+      videos.splice(ind,1);
+      const results = await ipfs.add(Buffer.from(JSON.stringify(videos)));
+      let newhash = await ipfs.object.patch.rmLink(this.usertemp,{Name: this.selectetype+'.json'});
+      newhash = await ipfs.object.patch.addLink(newhash, {
+        name: this.selectetype+'.json',size: results[0].size, cid:results[0].hash
+      });
+      this.usertemp = newhash.string;
+      this.video_list = [];
+      for(let i=0;i<videos.length;i++){
+        this.video_list.push({
+          "text":videos[i].title,
+          "value":videos[i].url,
         });
       }
     },
@@ -803,6 +835,7 @@ export default {
       }
       const res3 = await ipfs.name.publish(newhash.string,{key:name,lifetime:'168h'});
       console.log(res3);
+      alert('发布完成！');
     },
   },
   created() {

@@ -613,7 +613,7 @@ export default {
       this.filejson = results[0].hash;
       this.videofile_list=[];
       for(let i=0;i<videoinfo.files.length;i++){
-        this.type_list.push({
+        this.videofile_list.push({
           "text":videoinfo.files[i].title,
           "value":videoinfo.files[i].url,
         });

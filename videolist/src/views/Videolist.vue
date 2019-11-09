@@ -2,7 +2,7 @@
   <div class="videolist">
     <b-container>
       <b-row>
-        <b-col sm="12" md="6" lg="4" xl="3" v-for="(video,index) in videolist" :key="index">
+        <b-col sm="12" md="4" lg="3" xl="2" v-for="(video,index) in videolist" :key="index">
           <b-card :img-src="video.cover">
             <b-card-text>
               <a :href="video.url"><h4>{{ video.title }}</h4></a>
@@ -58,5 +58,18 @@ export default {
 }
 </script>
 <style>
-
+  .row > .col-4, .row > .col-2{
+    padding-left:5px;
+    padding-right:5px;
+    padding-bottom: 15px;
+  }
+  .card > .card-body{
+    padding: 0.4rem;
+  }
+  a > h4{
+    font-size: 0.8rem;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+  }
 </style>

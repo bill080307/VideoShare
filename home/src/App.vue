@@ -168,7 +168,7 @@
         await Axios.get('./type.json').then(async (res)=>{
           this.typelist = res.data.type;
           for (let i=0;i<this.typelist.length;i++){
-            await Axios.get('./type/'+this.typelist[i].name+'.json').then(async (res)=>{
+            await Axios.get('./type_'+this.typelist[i].name+'.json').then(async (res)=>{
               this.vlist[this.typelist[i].name] = await this.find_video(res.data.list, 12);
             })
           }

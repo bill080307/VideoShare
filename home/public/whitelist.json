@@ -1,14 +1,14 @@
 {
   "whitelist": [
     {
-      "id": "QmbBBcmNGVAKKaZh8FkU4LzEj2pPadyyiHG2GJpW75jFYV",
-      "username":"bill080307",
-      "description":"hahaha"
+      "id": "QmXidpbD1osmHXWN4gJc3NHry3kzTnicnp9Utrpxk6s4Du",
+      "username":"imba[电影]",
+      "description":"官方电影频道"
     },
     {
-      "id": "QmbBBcmNGVAKKaZh8FkU4LzEj2pPadyyiHG2GJpW75jFYV",
-      "username":"bill080307222",
-      "description":"hahaha222"
+      "id": "QmUJf5PCMFdcKtKhEH5Pa5zugJaM9WUxBrrR6EZeWnbWdd",
+      "username":"imba[剧集]",
+      "description":"官方剧集频道"
     }
   ]
 }

@@ -1,0 +1,19 @@
+{
+  "id": "QmUnZTQFJCd573goUHECvkG63UdAW9CTgZAMvp8EkGnMmJ",
+  "version": 1,
+  "dashboard": "/ipfs/Qmxxx/",
+  "news": "/ipfs/Qmxxx",
+  "client": {
+    "download": "/ipfs/Qmxxx"
+  },
+  "extend": [
+    {
+      "title": "当前版本：测1试",
+      "link": "/ipfs/Qmxxxx"
+    },
+    {
+      "title": "当前版本：测2试",
+      "link": "/ipfs/Qmxxxx"
+    }
+  ]
+}

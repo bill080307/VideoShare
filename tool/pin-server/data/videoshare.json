@@ -1,10 +1,14 @@
 {
   "users": {
-    "bill": "QmbBBcmNGVAKKaZh8FkU4LzEj2pPadyyiHG2GJpW75jFYV"
+    "imba_op": "QmUJf5PCMFdcKtKhEH5Pa5zugJaM9WUxBrrR6EZeWnbWdd",
+    "imba_movie": "QmXidpbD1osmHXWN4gJc3NHry3kzTnicnp9Utrpxk6s4Du"
   },
   "template": {
-    "global": "QmaqyXAp4mbqdm1nEkX34S1R6oPPntAccqn7iuCuQkfmiu",
-    "userlist": "Qmc4m1yJoF85cVUPf5wY1M17BZHDKGeUwJfxG6diHv1AWC",
-    "player": "QmaQNXTVAyHhVdezSpEdabsyZFfYZ2hjinJPbsKPqhFZMx"
-  }
+    "global": "QmePRaXc4sihf8YPEGZ62dgMjJLx6XPDiMqwQbrEZkYu47",
+    "userlist": "QmQGnj64hiKZzNpX8ZisvSyekk5SHH5K4bGbXFV4sYmEm1",
+    "player": "QmTVLLN7varEJRYh9x8acFfRmHKkr6utMBvGny4FJLjaLH"
+  },
+  "global": [
+    "QmUnZTQFJCd573goUHECvkG63UdAW9CTgZAMvp8EkGnMmJ"
+  ]
 }

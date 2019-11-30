@@ -33,45 +33,10 @@
         <h2>正在广播</h2>
       </b-row>
       <b-row>
-        <b-col cols="2">
-          <b-card img-src="video.cover">
+        <b-col cols="2" v-for="video in broadcastlist">
+          <b-card :img-src="video.cover">
             <b-card-text>
-              <a href="#"><h4>video.title</h4></a>
-            </b-card-text>
-          </b-card>
-        </b-col>
-        <b-col cols="2">
-          <b-card img-src="video.cover">
-            <b-card-text>
-              <a href="#"><h4>video.title</h4></a>
-            </b-card-text>
-          </b-card>
-        </b-col>
-        <b-col cols="2">
-          <b-card img-src="video.cover">
-            <b-card-text>
-              <a href="#"><h4>video.title</h4></a>
-            </b-card-text>
-          </b-card>
-        </b-col>
-        <b-col cols="2">
-          <b-card img-src="video.cover">
-            <b-card-text>
-              <a href="#"><h4>video.title</h4></a>
-            </b-card-text>
-          </b-card>
-        </b-col>
-        <b-col cols="2">
-          <b-card img-src="video.cover">
-            <b-card-text>
-              <a href="#"><h4>video.title</h4></a>
-            </b-card-text>
-          </b-card>
-        </b-col>
-        <b-col cols="2">
-          <b-card img-src="video.cover">
-            <b-card-text>
-              <a href="#"><h4>video.title</h4></a>
+              <a :href="video.url"><h4>{{ video.title }}</h4></a>
             </b-card-text>
           </b-card>
         </b-col>
@@ -102,11 +67,16 @@
         typelist:[],
         banners:[],
         bannervideolist:[],
-        vlist:{}
+        vlist:{},
+        jsipfs:{},
+        whitelist:[],
+        broadcast:[],
+        broadcastlist:[],
       }
     },
     methods:{
       async init(){
+        document.title = 'VideoShare';
         await Axios.get('./type.json').then(async (res)=>{
           this.typelist = res.data.type;
           for (let i=0;i<this.typelist.length;i++){
@@ -120,6 +90,56 @@
           this.banners = res.data.banners;
           this.bannervideolist = await this.find_video(res.data.bannervideolist, 6);
         });
+
+        await Axios.get('./whitelist.json').then(async (res)=>{
+          this.whitelist = res.data.whitelist;
+        });
+        const IPFS = require('ipfs');
+        this.jsipfs = await IPFS.create({
+          repo: '/ipfs-' + Math.random(),
+          config: {
+            Addresses: {
+              Swarm: ['/dns4/ws-star.discovery.libp2p.io/tcp/443/wss/p2p-websocket-star/']
+            }
+          },
+          EXPERIMENTAL: {pubsub: true}
+        });
+
+        this.jsipfs.swarm.connect("/ip4/127.0.0.1/tcp/9999/ws/ipfs/QmPKtUgdw97QS7zYoEVxY9EpuCavbtMmjSMp7usDXt1BGi");
+
+        setInterval(async()=>{
+          const peerInfos = await this.jsipfs.swarm.peers();
+          console.log(peerInfos.length+' nodes connect.');
+        },10000);
+        setInterval(()=>{
+          this.broadcastlist = [];
+          for (let i = 0; i < this.broadcast.length && this.broadcastlist.length < 6; i++) {
+            this.broadcastlist.push(this.broadcast[this.broadcast.length - i - 1]);
+          }
+        },30000);
+
+        const topic = 'VideoShare';
+        const receiveMsg = async(msg) => {
+          const from = msg.from;
+          let distrust = true;
+          for (let i = 0; i < this.whitelist.length; i++) {
+            if(this.whitelist[i].id===from){
+              distrust = false;
+              break;
+            }
+          }
+          if(distrust)return;
+          let videohash = msg.data.toString();
+          let video = await Axios.get('/ipfs/'+videohash+'/files.json').then(async (res)=>{
+            return res.data;
+          });
+          this.broadcast.push({
+            "title":video.title,
+            "cover":video.cover,
+            "url":'/ipfs/'+videohash,
+          });
+        };
+        await this.jsipfs.pubsub.subscribe(topic, receiveMsg)
       },
       async find_video(typelist, num){
         let res = [];

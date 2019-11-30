@@ -56,6 +56,9 @@
     watch:{
       $route(to,from){
         this.init();
+      },
+      title(title) {
+        document.title = this.title !=="" ? this.title + " - VideoShare":"VideoShare";
       }
     }
   }

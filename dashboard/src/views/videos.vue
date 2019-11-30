@@ -552,7 +552,11 @@
                 const ipfs = ipfsClient(this.ipfsapi);
                 this.temphash = this.selectevideo.substr(6);
                 let vfile = await ipfs.object.get(this.temphash);
-                this.filejson = vfile['files.json'].string;
+                for (let i = 0; i < vfile.Links.length; i++) {
+                    if(vfile.Links[i].Name === 'files.json'){
+                        this.filejson = vfile.Links[i].Hash
+                    }
+                }
                 let videoinfo = await ipfs.cat(this.filejson);
                 videoinfo = JSON.parse(videoinfo);
                 this.video.title = videoinfo.title;

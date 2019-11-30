@@ -9,6 +9,11 @@
       "id": "QmUJf5PCMFdcKtKhEH5Pa5zugJaM9WUxBrrR6EZeWnbWdd",
       "username":"imba[剧集]",
       "description":"官方剧集频道"
+    },
+    {
+      "id": "QmPKtUgdw97QS7zYoEVxY9EpuCavbtMmjSMp7usDXt1BGi",
+      "username":"imba[pubsub]",
+      "description":"官方广播频道"
     }
   ]
 }

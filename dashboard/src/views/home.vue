@@ -364,9 +364,8 @@
 
             async changeuserlist(){
                 const ipfs = ipfsClient(this.ipfsapi);
-                // this.usertemp = await ipfs.name.resolve('/ipns/'+this.ipfskey);
-                // this.usertemp = this.usertemp.substr(6);
-                this.usertemp = 'QmSeswJr5KhsdtSxeuTjr8bx6cHmktP4BQro1sbKrNeQsK';
+                this.usertemp = await ipfs.name.resolve('/ipns/'+this.ipfskey);
+                this.usertemp = this.usertemp.substr(6);
                 let res = await ipfs.object.links(this.usertemp);
                 this.type_list = [];
                 let isnew = true;

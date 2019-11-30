@@ -3,7 +3,7 @@ import json
 import ipfshttpclient
 import os
 
-api = ipfshttpclient.connect('/ip4/172.16.1.8/tcp/5001', timeout=1200)
+api = ipfshttpclient.connect('/ip4/127.0.0.1/tcp/5001', timeout=1200)
 
 
 def tohash(path):

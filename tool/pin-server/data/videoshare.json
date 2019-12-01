@@ -8,7 +8,7 @@
     "userlist": "QmQGnj64hiKZzNpX8ZisvSyekk5SHH5K4bGbXFV4sYmEm1",
     "player": "QmTVLLN7varEJRYh9x8acFfRmHKkr6utMBvGny4FJLjaLH"
   },
-  "global": [
-    "QmUnZTQFJCd573goUHECvkG63UdAW9CTgZAMvp8EkGnMmJ"
-  ]
+  "global": {
+    "home": "QmUnZTQFJCd573goUHECvkG63UdAW9CTgZAMvp8EkGnMmJ"
+  }
 }

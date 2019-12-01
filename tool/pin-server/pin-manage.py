@@ -55,6 +55,9 @@ def getmyhash():
                         mylist.append(t3['cover'][6:])
                         for v4 in t3['files']:
                             mylist.append(v4['url'][6:])
+            for k1, v1 in data['global'].items():
+                h = api.name.resolve(v1)
+                mylist.append(h['Path'][6:])
     return mylist
 
 

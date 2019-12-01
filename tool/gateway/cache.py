@@ -24,4 +24,7 @@ if __name__ == '__main__':
                 h = api.name.resolve(v1)
                 r.set(v1, h['Path'][6:])
                 r.set(k1, h['Path'][6:])
-
+            for k1, v1 in data['global'].items():
+                h = api.name.resolve(v1)
+                r.set(v1, h['Path'][6:])
+                r.set(k1, h['Path'][6:])

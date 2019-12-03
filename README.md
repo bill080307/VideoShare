@@ -4,7 +4,7 @@ Project Demo
 
 首页截图
 
-[http://ipfs-gateway.dlimba.top:8082/ipns/QmUnZTQFJCd573goUHECvkG63UdAW9CTgZAMvp8EkGnMmJ/](http://ipfs-gateway.dlimba.top:8082/ipfs/QmYTYx78yy8Dt7DqQU7Py1sJL2P9xjXjb85r3KzvLM71Qs) [ipv4](https://ninetailed.ninja/ipfs/QmYTYx78yy8Dt7DqQU7Py1sJL2P9xjXjb85r3KzvLM71Qs) [ipv6](https://gateway.ipfs.io/ipfs/QmYTYx78yy8Dt7DqQU7Py1sJL2P9xjXjb85r3KzvLM71Qs) 
+[http://ipfs-gateway.dlimba.top:8082/ipns/QmUnZTQFJCd573goUHECvkG63UdAW9CTgZAMvp8EkGnMmJ/](http://ipfs-gateway.dlimba.top:8082/ipfs/QmdJaMWDAdu7LkUPCRqb4NepUBXgmBdfegT6zjUyjVFUTb) [ipv4](https://ninetailed.ninja/ipfs/QmdJaMWDAdu7LkUPCRqb4NepUBXgmBdfegT6zjUyjVFUTb) [ipv6](https://gateway.ipfs.io/ipfs/QmdJaMWDAdu7LkUPCRqb4NepUBXgmBdfegT6zjUyjVFUTb) 
 
 ![home demo](demo/demo-home.png)
 

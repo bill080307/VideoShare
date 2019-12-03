@@ -312,7 +312,7 @@
                 localStorage.setItem('videoshare_ipfsapilist',JSON.stringify(this.server_url))
             },
 
-            changeserverlist(){
+            async changeserverlist(){
                 const ipfs = ipfsClient(this.ipfsapi);
                 ipfs.key.list((err, keys) => {
                     this.key_list = [];
@@ -324,17 +324,22 @@
                     }
                 });
                 if(!this.globalfile.hash){
-                    ipfs.object.links(this.template.global, (err, res) => {
-                        for (let i = 0; i < res.length; i++) {
-                            if(res[i].Name==='global.json'){
-                                this.globalfile = {
-                                    hash:res[i].Hash.string,
-                                    size:res[i].Tsize,
-                                };
-                                break;
-                            }
+                    let res = await ipfs.object.get(this.template.global);
+                    for (let i = 0; i < res.Links.length; i++) {
+                        if(res.Links[i].Name === 'global.json'){
+                            let globalid = await ipfs.cat(res.Links[i].Hash.string);
+                            globalid = JSON.parse(globalid);
+                            globalid = globalid['id'];
+                            let global = await Axios.get('/ipns/'+globalid+'/global.json').then((res)=>{
+                                return res.data;
+                            });
+                            let globalhash = await ipfs.add(Buffer.from(JSON.stringify(global)));
+                            this.globalfile = {
+                                hash:globalhash[0].hash,
+                                size:globalhash[0].size,
+                            };
                         }
-                    })
+                    }
                 }
             },
             // 编辑账号

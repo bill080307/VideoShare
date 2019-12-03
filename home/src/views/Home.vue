@@ -84,7 +84,6 @@
               this.vlist[this.typelist[i].name] = await this.find_video(res.data.list, 12);
             })
           }
-          console.log(this.vlist);
         });
         await Axios.get('./banner.json').then(async (res)=>{
           this.banners = res.data.banners;

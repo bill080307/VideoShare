@@ -54,6 +54,19 @@ if __name__ == '__main__':
     writejson(temPath, temJson)
     dashboardhash = tohash(os.path.join(path, 'dashboard'))
 
+    globalJson['dashboard'] = '/ipfs/%s'%dashboardhash['Hash']
+    writejson(globalPath, globalJson)
+    globalhash = tohash(os.path.join(path, 'home'))
+
+    temJson['template'] = {
+        'global': globalhash['Hash'],
+        'userlist': videolisthash['Hash'],
+        'player': playerhash['Hash']
+    }
+
+    writejson(temPath, temJson)
+    dashboardhash = tohash(os.path.join(path, 'dashboard'))
+
     print(dashboardhash)
     print('http://127.0.0.1:8080/ipfs/%s'%dashboardhash['Hash'])
     # api.name.publish(globalhash['Hash'], lifetime="720h", key='VideoShareG')

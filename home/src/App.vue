@@ -10,6 +10,17 @@
             <b-nav-item href="#">短视频</b-nav-item>
             <b-nav-item href="#">直播</b-nav-item>
           </b-navbar-nav>
+          <b-navbar-nav class="ml-auto">
+            <b-nav-item-dropdown right>
+              <template slot="button-content">更多</template>
+              <b-dropdown-item :href="global.news">公告</b-dropdown-item>
+              <b-dropdown-divider></b-dropdown-divider>
+              <b-dropdown-item :href="global.dashboard">管理我的空间</b-dropdown-item>
+              <b-dropdown-divider></b-dropdown-divider>
+              <b-dropdown-item :href="link.link" v-for="link in global.extend">{{ link.title }}</b-dropdown-item>
+              <b-dropdown-item :href="global.client.download">下载客户端</b-dropdown-item>
+            </b-nav-item-dropdown>
+          </b-navbar-nav>
         </b-container>
       </b-navbar>
       <b-container>
@@ -68,13 +79,26 @@
     data(){
       return {
         typelist:[],
+        global:{
+          id: "",
+          dashboard: "",
+          client: {
+            download: ""
+          },
+          extend:[]
+        },
       }
     },
     methods:{
       async init(){
-        await Axios.get('./type.json').then(async (res)=>{
+        Axios.get('./type.json').then(async (res)=>{
           this.typelist = res.data.type;
         });
+        Axios.get('./global.json').then((res)=>{
+          this.global = res.data;
+        }).catch((err)=>{
+          console.log(err)
+        })
       },
     },
     created() {

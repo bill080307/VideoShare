@@ -38,6 +38,7 @@
               <p>{{ user.description }}</p>
             </b-media>
           </b-card>
+          <div id="qrCode" ref="qrCodeDiv" class="qr"></div>
           <json-viewer class="hidden-sm" :value="mediainfo" :expand-depth=2></json-viewer>
         </b-col>
       </b-row>
@@ -60,6 +61,7 @@
 <script>
 import Axios from 'axios'
 import videojs from 'video.js'
+import QRCode from 'qrcodejs2';
 export default {
   name: 'app',
   data(){
@@ -89,7 +91,18 @@ export default {
         this.files = res.data.files;
         this.title = res.data.title;
         this.description = res.data.description;
-        this.playfile(this.files[0])
+        this.playfile(this.files[0]);
+        let myhash = window.location.pathname;
+        if(myhash.substring(0, 6) === "/ipfs/"){
+          new QRCode(this.$refs.qrCodeDiv, {
+            text: myhash,
+            width: 120,
+            height: 120,
+            colorDark: "#333333",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.L
+          });
+        }
       });
       Axios.get('./user.json').then((res)=>{
         this.user = res.data;

@@ -27,9 +27,12 @@
         <b-col cols="3">
           <b-img fluid :src="user.avatar"></b-img>
         </b-col>
-        <b-col cols="9">
+        <b-col cols="7">
           <h1>{{ user.username }}</h1>
           <p> {{ user.description }}</p>
+        </b-col>
+        <b-col cols="2">
+          <div id="qrCode" ref="qrCodeDiv" class="qr"></div>
         </b-col>
       </b-row>
     </b-container>
@@ -39,6 +42,7 @@
 
 <script>
 import Axios from 'axios'
+import QRCode from 'qrcodejs2';
 export default {
   name: 'app',
   data(){
@@ -63,6 +67,14 @@ export default {
   methods:{
     init(){
       Axios.get('./user.json').then((res)=>{
+        new QRCode(this.$refs.qrCodeDiv, {
+          text: '/ipns/'+res.data.id+'/',
+          width: 120,
+          height: 120,
+          colorDark: "#333333",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.L
+        });
         this.user = res.data;
         return this.user.id;
       });

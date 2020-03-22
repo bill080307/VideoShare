@@ -52,16 +52,17 @@
               <b-col cols="5"><a href="#">Video Share</a></b-col>
               <b-col cols="5"><a href="#">Video Share</a></b-col>
             </b-row>
-
           </b-col>
-          <b-col cols="4">
+          <b-col cols="2">
             <b-row>
-              <b-col cols="5"><a href="#">Video Share</a></b-col>
-              <b-col cols="5"><a href="#">Video Share</a></b-col>
-              <b-col cols="5"><a href="#">Video Share</a></b-col>
-              <b-col cols="5"><a href="#">Video Share</a></b-col>
-              <b-col cols="5"><a href="#">Video Share</a></b-col>
-              <b-col cols="5"><a href="#">Video Share</a></b-col>
+              <b-col cols="10"><a href="#">Video Share</a></b-col>
+              <b-col cols="10"><a href="#">Video Share</a></b-col>
+              <b-col cols="10"><a href="#">Video Share</a></b-col>
+            </b-row>
+          </b-col>
+          <b-col cols="2">
+            <b-row>
+              <div id="qrCode" ref="qrCodeDiv" class="qr"></div>
             </b-row>
           </b-col>
           <b-col cols="4">
@@ -74,6 +75,7 @@
 </template>
 <script>
   import Axios from 'axios'
+  import QRCode from 'qrcodejs2';
   export default {
     name: 'app',
     data(){
@@ -96,6 +98,14 @@
         });
         Axios.get('./global.json').then((res)=>{
           this.global = res.data;
+          new QRCode(this.$refs.qrCodeDiv, {
+            text: '/ipns/'+res.data.id+'/',
+            width: 120,
+            height: 120,
+            colorDark: "#333333",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.L
+          });
         }).catch((err)=>{
           console.log(err)
         })

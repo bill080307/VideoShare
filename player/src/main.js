@@ -5,9 +5,9 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'video.js/dist/video-js.css'
 import BootstrapVue from 'bootstrap-vue'
 import JsonViewer from 'vue-json-viewer'
-Vue.config.productionTip = false
-Vue.use(BootstrapVue)
-Vue.use(JsonViewer)
+Vue.config.productionTip = false;
+Vue.use(BootstrapVue);
+Vue.use(JsonViewer);
 new Vue({
   render: function (h) { return h(App) },
-}).$mount('#app')
+}).$mount('#app');

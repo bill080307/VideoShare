@@ -44,7 +44,6 @@ export default {
         tempvideolist = tempvideolist.concat(vlist.data);
       }
       this.videolist = tempvideolist;
-      console.log(this.videolist)
     }
   },
   created(){

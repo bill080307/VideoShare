@@ -4,7 +4,7 @@ Project Demo
 
 首页截图
 
-[http://ipfs-gateway.dlimba.top:8082/ipns/QmUnZTQFJCd573goUHECvkG63UdAW9CTgZAMvp8EkGnMmJ/](http://ipfs-gateway.dlimba.top:8082/ipfs/QmdJaMWDAdu7LkUPCRqb4NepUBXgmBdfegT6zjUyjVFUTb) [ipv4](https://ninetailed.ninja/ipfs/QmdJaMWDAdu7LkUPCRqb4NepUBXgmBdfegT6zjUyjVFUTb) [ipv6](https://gateway.ipfs.io/ipfs/QmdJaMWDAdu7LkUPCRqb4NepUBXgmBdfegT6zjUyjVFUTb) 
+[http://ipfs-gateway.dlimba.top:8082/ipns/QmUnZTQFJCd573goUHECvkG63UdAW9CTgZAMvp8EkGnMmJ/](http://ipfs-gateway.dlimba.top:8082/ipfs/QmWiPNcE5knyxfS8kiLf5FPAncRaeDRihBKWffSGUf3wRV) [ipv4](https://ninetailed.ninja/ipfs/QmWiPNcE5knyxfS8kiLf5FPAncRaeDRihBKWffSGUf3wRV) [ipv6](https://gateway.ipfs.io/ipfs/QmWiPNcE5knyxfS8kiLf5FPAncRaeDRihBKWffSGUf3wRV) 
 
 ![home demo](demo/demo-home.png)
 
@@ -14,7 +14,7 @@ Project Demo
 
 ![home demo](demo/demo-list1.png)
 
-[http://ipfs-gateway.dlimba.top:8082/ipns/QmXidpbD1osmHXWN4gJc3NHry3kzTnicnp9Utrpxk6s4Du/](http://ipfs-gateway.dlimba.top:8082/ipfs/QmPnXvWUuvAEchE1SxgpXTUXhQfUKqXgZ5XJZfxrUsP94R) [ipv4](https://ninetailed.ninja/ipfs/QmPnXvWUuvAEchE1SxgpXTUXhQfUKqXgZ5XJZfxrUsP94R) [ipv6](https://gateway.ipfs.io/ipfs/QmPnXvWUuvAEchE1SxgpXTUXhQfUKqXgZ5XJZfxrUsP94R)
+[http://ipfs-gateway.dlimba.top:8082/ipns/QmXidpbD1osmHXWN4gJc3NHry3kzTnicnp9Utrpxk6s4Du/](http://ipfs-gateway.dlimba.top:8082/ipfs/QmUtcCCZkaUvcxTwwUYTYfSpHjoHpTabAiHmZQHW5o8X6e) [ipv4](https://ninetailed.ninja/ipfs/QmUtcCCZkaUvcxTwwUYTYfSpHjoHpTabAiHmZQHW5o8X6e) [ipv6](https://gateway.ipfs.io/ipfs/QmUtcCCZkaUvcxTwwUYTYfSpHjoHpTabAiHmZQHW5o8X6e)
 
 ![home demo](demo/demo-list2.png)
 
@@ -24,6 +24,6 @@ Project Demo
 
 ![home demo](demo/demo-player1.png)
 
-[http://ipfs-gateway.dlimba.top:8082/ipfs/QmVNAuckPWSyLfJdEAPPt8WUnJCNvowZZ1pWHcy37w4do6](http://ipfs-gateway.dlimba.top:8082/ipfs/QmVNAuckPWSyLfJdEAPPt8WUnJCNvowZZ1pWHcy37w4do6) [ipv4](https://ninetailed.ninja/ipns/QmVNAuckPWSyLfJdEAPPt8WUnJCNvowZZ1pWHcy37w4do6) [ipv6](https://gateway.ipfs.io/ipns/QmVNAuckPWSyLfJdEAPPt8WUnJCNvowZZ1pWHcy37w4do6) 
+[http://ipfs-gateway.dlimba.top:8082/ipfs/QmVy8keWEsgtwH4wmQNWsJeQXfjib5KAgshhUYTdNYNPmC](http://ipfs-gateway.dlimba.top:8082/ipfs/QmVy8keWEsgtwH4wmQNWsJeQXfjib5KAgshhUYTdNYNPmC) [ipv4](https://ninetailed.ninja/ipfs/QmVy8keWEsgtwH4wmQNWsJeQXfjib5KAgshhUYTdNYNPmC) [ipv6](https://gateway.ipfs.io/ipfs/QmVy8keWEsgtwH4wmQNWsJeQXfjib5KAgshhUYTdNYNPmC) 
 
 ![home demo](demo/demo-player2.png)

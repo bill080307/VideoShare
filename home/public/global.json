@@ -1,19 +1,37 @@
 {
   "id": "QmUnZTQFJCd573goUHECvkG63UdAW9CTgZAMvp8EkGnMmJ",
   "version": 1,
-  "dashboard": "/ipfs/QmTJRhb2SanWSnz6gDa6qmNvn1ZbgjvFCWAQ5eTX21WEBc",
-  "news": "/ipfs/Qmxxx",
+  "dashboard": "/ipfs/QmQrs4A7RCJPdGji4XgHgDT7q9pZwMXWL6s8kWkvxNDcf1",
+  "news": "/ipns/QmPsDMaNfxVCWDLTtBheVT61r5ohiiuSNU5aBMMDmjBsTh/",
   "client": {
-    "download": "/ipfs/Qmxxx"
+    "download": "/ipns/QmPsDMaNfxVCWDLTtBheVT61r5ohiiuSNU5aBMMDmjBsTh/"
   },
   "extend": [
     {
-      "title": "当前版本：测1试",
-      "link": "/ipfs/Qmxxxx"
+      "title": "当前版本：测试版本1发布",
+      "link": "/ipns/QmPsDMaNfxVCWDLTtBheVT61r5ohiiuSNU5aBMMDmjBsTh/#1"
+    }
+  ],
+  "links": [
+    {
+      "title": "VideoShare",
+      "link": "https://github.com/ipfs-app/"
     },
     {
-      "title": "当前版本：测2试",
-      "link": "/ipfs/Qmxxxx"
+      "title": "阿里云",
+      "link": "https://www.aliyun.com/"
+    },
+    {
+      "title": "阿里巴巴开源镜像站",
+      "link": "https://developer.aliyun.com/mirror/"
+    },
+    {
+      "title": "GitHub",
+      "link": "https://github.com/"
+    },
+    {
+      "title": "IPFS",
+      "link": "https://ipfs.io/"
     }
   ]
 }

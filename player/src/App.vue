@@ -5,7 +5,7 @@
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item :href="'/ipns/'+user.id+'/#/'+type.name" v-for="type in user.type">{{ type.title }}</b-nav-item>
+          <b-nav-item :href="'/ipns/'+user.id+'/#/'+type.name" v-for="type in user.type" :key="type.name">{{ type.title }}</b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown right>
@@ -16,7 +16,7 @@
             <b-dropdown-divider></b-dropdown-divider>
             <b-dropdown-item :href="global.dashboard">管理我的空间</b-dropdown-item>
             <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item :href="link.link" v-for="link in global.extend">{{ link.title }}</b-dropdown-item>
+            <b-dropdown-item :href="link.link" v-for="link in global.extend" :key="link.link">{{ link.title }}</b-dropdown-item>
             <b-dropdown-item :href="global.client.download">下载客户端</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
@@ -25,7 +25,7 @@
     <b-container fluid class="main">
       <b-row>
         <b-col lg="9" >
-          <video id="player" controls autoplay class="video-js vjs-big-play-centered">
+          <video id="player" :poster="cover" controls autoplay class="video-js vjs-big-play-centered">
           </video>
           <h2 class="title">{{ title }}</h2>
           <p>{{ description }}</p>
@@ -38,13 +38,24 @@
               <p>{{ user.description }}</p>
             </b-media>
           </b-card>
+          <b-card>
+            <div class="ipfsqr">
+              <p>IPFS地址</p>
+              <div id="qrCode" ref="qrCodeDiv" class="qr"></div>
+            </div>
+            <div class="playerselect">
+              <p>加载其他解码器  (Html5可能不支持播放本页视频)</p>
+              <a :href="'potplayer://'+playfileurl">Potplayer for Windows</a><br>
+              <a :href="'iina://weblink?url='+playfileurl">Iina player for Mac os</a>
+            </div>
+          </b-card>
           <json-viewer class="hidden-sm" :value="mediainfo" :expand-depth=2></json-viewer>
         </b-col>
       </b-row>
       <b-row>
         <b-col>
           <b-list-group class="filelist">
-            <b-list-group-item button v-for="file in files" @click="playfile(file)">
+            <b-list-group-item button v-for="file in files" :key="file.url" @click="playfile(file)">
               {{ file.title }}
               <b-badge variant="success" class="rate">{{ file.size/file.duration | formatRate}}</b-badge>
               <b-badge variant="warning" class="dura">{{ file.duration | formatDura }}</b-badge>
@@ -54,18 +65,39 @@
         </b-col>
       </b-row>
     </b-container>
+    <div class="footer">
+      <b-container>
+        <b-row>
+          <b-col cols="6">
+            <b-row>
+              <b-col cols="4" v-for="l in global.links" :key="l.links"><a :href="l.link" >{{ l.title }}</a></b-col>
+            </b-row>
+          </b-col>
+          <b-col cols="2">
+            <b-row>
+              <div id="qrCodeipns" ref="qrCodeDivipns" class="qr"></div>
+            </b-row>
+          </b-col>
+          <b-col cols="4">
+            <a class="f_logo" :href="'/ipns/'+global.id+'/'"></a>
+          </b-col>
+        </b-row>
+      </b-container>
+    </div>
   </div>
 </template>
 
 <script>
 import Axios from 'axios'
 import videojs from 'video.js'
+import QRCode from 'qrcodejs2';
 export default {
   name: 'app',
   data(){
     return {
       title:"",
       description:"",
+      cover: "",
       user:{
         avatar:"",
         username:"",
@@ -77,9 +109,11 @@ export default {
         client: {
           download: ""
         },
-        extend:[]
+        extend:[],
+        links:[],
       },
       files:[],
+      playfileurl: '',
       mediainfo:{}
     }
   },
@@ -89,7 +123,23 @@ export default {
         this.files = res.data.files;
         this.title = res.data.title;
         this.description = res.data.description;
-        this.playfile(this.files[0])
+        this.cover = res.data.cover;
+        this.playfile(this.files[0]);
+        let myhash = window.location.pathname;
+        let qrcode = '';
+        if(myhash.substring(0, 6) === "/ipfs/"){
+          qrcode = myhash;
+        }else {
+            qrcode = window.location.href;
+        }
+          new QRCode(this.$refs.qrCodeDiv, {
+              text: qrcode,
+              width: 120,
+              height: 120,
+              colorDark: "#333333",
+              colorLight: "#ffffff",
+              correctLevel: QRCode.CorrectLevel.L
+          });
       });
       Axios.get('./user.json').then((res)=>{
         this.user = res.data;
@@ -109,11 +159,20 @@ export default {
           this.global = res.data;
         }).catch((err)=>{
           console.log(err)
-        })
+        });
+          new QRCode(this.$refs.qrCodeDivipns, {
+              text: '/ipns/'+id,
+              width: 120,
+              height: 120,
+              colorDark: "#333333",
+              colorLight: "#ffffff",
+              correctLevel: QRCode.CorrectLevel.L
+          });
       });
     },
     playfile(item){
       this.mediainfo = item.mediainfo;
+      this.playfileurl = window.location.origin + item.url;
       const sources = [{
         type:"video/mp4",
         src:item.url
@@ -175,7 +234,18 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-
+  .footer{
+    margin-top: 40px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #f6f9fa;
+  }
+  .f_logo{
+    display: inline-block;
+    width: 300px;
+    height: 100px;
+    background: url("/ipfs/QmSiGaJ6phBKWuDmYpEocLgZgmwfGnDP9wuHww4Skxkcfq");
+  }
   @media screen and (max-width:992px){
     .hidden-sm{
       display: none;
@@ -184,5 +254,21 @@ export default {
       width: 100%;
       height: calc(57vw);
     }
+  }
+  .ipfsqr{
+    width: 120px;
+    margin-right: 10px;
+    float: left;
+  }
+  .ipfsqr p{
+    margin-bottom: 4px;
+    text-align: center;
+  }
+  .playerselect{
+
+  }
+  .playerselect p{
+    margin-bottom: 4px;
+    text-align: center;
   }
 </style>

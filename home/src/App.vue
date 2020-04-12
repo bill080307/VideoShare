@@ -43,21 +43,9 @@
     <div class="footer">
       <b-container>
         <b-row>
-          <b-col cols="4">
+          <b-col cols="6">
             <b-row>
-              <b-col cols="5"><a href="#">Video Share</a></b-col>
-              <b-col cols="5"><a href="#">Video Share</a></b-col>
-              <b-col cols="5"><a href="#">Video Share</a></b-col>
-              <b-col cols="5"><a href="#">Video Share</a></b-col>
-              <b-col cols="5"><a href="#">Video Share</a></b-col>
-              <b-col cols="5"><a href="#">Video Share</a></b-col>
-            </b-row>
-          </b-col>
-          <b-col cols="2">
-            <b-row>
-              <b-col cols="10"><a href="#">Video Share</a></b-col>
-              <b-col cols="10"><a href="#">Video Share</a></b-col>
-              <b-col cols="10"><a href="#">Video Share</a></b-col>
+              <b-col cols="4" v-for="l in global.links" :key="l.link"><a :href="l.link" >{{ l.title }}</a></b-col>
             </b-row>
           </b-col>
           <b-col cols="2">
@@ -87,7 +75,8 @@
           client: {
             download: ""
           },
-          extend:[]
+          extend:[],
+            links:[],
         },
       }
     },

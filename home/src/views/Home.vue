@@ -145,6 +145,9 @@
         for (let i  = 0; i<typelist.length;i++){
           let temp = await Axios.get('/ipns/'+typelist[i].id+'/'+typelist[i].usertype+'.json').then((res)=>{
             return res.data;
+          }).catch((err)=>{
+              console.log(err);
+              return [];
           });
           for (let j=0;j<temp.length && num > res.length;j++){
             res.push(temp[j])

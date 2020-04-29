@@ -5,9 +5,7 @@
         <b-container>
           <b-navbar-nav>
             <b-nav-item to="/">主站</b-nav-item>
-            <b-nav-item href="#">主站A</b-nav-item>
-            <b-nav-item href="#">主站S</b-nav-item>
-            <b-nav-item href="#">短视频</b-nav-item>
+            <b-nav-item href="https://github.com/bill080307/douyinWithEth">短视频</b-nav-item>
             <b-nav-item href="#">直播</b-nav-item>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">

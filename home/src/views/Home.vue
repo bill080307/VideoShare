@@ -2,7 +2,7 @@
   <div id="home">
     <b-container>
       <b-row>
-        <b-col cols="6">
+        <b-col sm="12" md="6">
           <b-carousel
                   :interval="6000"
                   controls
@@ -12,12 +12,13 @@
                     :caption="banner.title"
                     :text="banner.text"
                     :img-src="banner.img"
+                              :key="banner.title"
             ></b-carousel-slide>
           </b-carousel>
         </b-col>
-        <b-col cols="6">
+        <b-col sm="12" md="6">
           <b-row>
-            <b-col cols="4" v-for="video in bannervideolist">
+            <b-col sm="6" md="6" lg="4" v-for="video in bannervideolist" :key="video.url">
               <b-card :img-src="video.cover">
                 <b-card-text>
                   <a :href="video.url" target="_blank"><h4>{{ video.title }}</h4></a>
@@ -33,7 +34,7 @@
         <h2>正在广播</h2>
       </b-row>
       <b-row>
-        <b-col cols="2" v-for="video in broadcastlist">
+        <b-col sm="6" md="4" lg="3" xl="2" v-for="video in broadcastlist" :key="video.url">
           <b-card :img-src="video.cover">
             <b-card-text>
               <a :href="video.url"><h4>{{ video.title }}</h4></a>
@@ -42,12 +43,12 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-container v-for="type in typelist">
+    <b-container v-for="type in typelist" :key="type.name">
       <b-row>
         <h2>{{ type.title }}</h2>
       </b-row>
       <b-row>
-        <b-col cols="2" v-for="video in vlist[type.name]">
+        <b-col sm="6" md="4" lg="3" xl="2" v-for="video in vlist[type.name]" :key="video.url">
           <b-card :img-src="video.cover">
             <b-card-text>
               <a :href="video.url"><h4>{{ video.title }}</h4></a>
@@ -93,22 +94,13 @@
         await Axios.get('./whitelist.json').then(async (res)=>{
           this.whitelist = res.data.whitelist;
         });
-        const IPFS = require('ipfs');
-        this.jsipfs = await IPFS.create({
-          repo: '/ipfs-' + Math.random(),
-          config: {
-            Addresses: {
-              Swarm: ['/dns4/ws-star.discovery.libp2p.io/tcp/443/wss/p2p-websocket-star/']
-            }
-          },
-          EXPERIMENTAL: {pubsub: true}
-        });
-
-        this.jsipfs.swarm.connect("/ip4/127.0.0.1/tcp/9999/ws/ipfs/QmPKtUgdw97QS7zYoEVxY9EpuCavbtMmjSMp7usDXt1BGi");
+        const ipfs = await this.$ipfs;
+        ipfs.swarm.connect("/ip4/127.0.0.1/tcp/9999/ws/ipfs/QmPKtUgdw97QS7zYoEVxY9EpuCavbtMmjSMp7usDXt1BGi");
 
         setInterval(async()=>{
-          const peerInfos = await this.jsipfs.swarm.peers();
-          console.log(peerInfos.length+' nodes connect.');
+          const peerInfos = await ipfs.swarm.peers();
+            console.log(peerInfos.length+' nodes connect.');
+            console.log(peerInfos);
         },10000);
         setInterval(()=>{
           this.broadcastlist = [];
@@ -138,7 +130,7 @@
             "url":'/ipfs/'+videohash,
           });
         };
-        await this.jsipfs.pubsub.subscribe(topic, receiveMsg)
+        await ipfs.pubsub.subscribe(topic, receiveMsg)
       },
       async find_video(typelist, num){
         let res = [];
@@ -163,7 +155,7 @@
   }
 </script>
 <style>
-  .row > .col-4, .row > .col-2{
+  .row >.col-sm-6, .row >.col-md-4, .row >.col-lg-3, .row >.col-xl-2 {
     padding-left:5px;
     padding-right:5px;
     padding-bottom: 15px;

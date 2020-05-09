@@ -5,9 +5,7 @@
         <b-container>
           <b-navbar-nav>
             <b-nav-item to="/">主站</b-nav-item>
-            <b-nav-item href="#">主站A</b-nav-item>
-            <b-nav-item href="#">主站S</b-nav-item>
-            <b-nav-item href="#">短视频</b-nav-item>
+            <b-nav-item href="https://github.com/bill080307/douyinWithEth">短视频</b-nav-item>
             <b-nav-item href="#">直播</b-nav-item>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
@@ -17,7 +15,7 @@
               <b-dropdown-divider></b-dropdown-divider>
               <b-dropdown-item :href="global.dashboard">管理我的空间</b-dropdown-item>
               <b-dropdown-divider></b-dropdown-divider>
-              <b-dropdown-item :href="link.link" v-for="link in global.extend">{{ link.title }}</b-dropdown-item>
+              <b-dropdown-item :href="link.link" v-for="link in global.extend" :key="link.link">{{ link.title }}</b-dropdown-item>
               <b-dropdown-item :href="global.client.download">下载客户端</b-dropdown-item>
             </b-nav-item-dropdown>
           </b-navbar-nav>
@@ -32,7 +30,7 @@
         <b-container>
           <b-navbar-nav>
             <b-nav-item to="/">首页</b-nav-item>
-            <b-nav-item :to="navitem.name" v-for="navitem in typelist" >
+            <b-nav-item :to="navitem.name" v-for="navitem in typelist" :key="navitem.title">
               {{ navitem.title }}
             </b-nav-item>
           </b-navbar-nav>
@@ -43,18 +41,18 @@
     <div class="footer">
       <b-container>
         <b-row>
-          <b-col cols="6">
+          <b-col sm="12" md="6">
             <b-row>
               <b-col cols="4" v-for="l in global.links" :key="l.link"><a :href="l.link" >{{ l.title }}</a></b-col>
             </b-row>
           </b-col>
-          <b-col cols="2">
+          <b-col sm="6" md="2">
             <b-row>
               <div id="qrCode" ref="qrCodeDiv" class="qr"></div>
             </b-row>
           </b-col>
-          <b-col cols="4">
-            <a class="f_logo" href="#"></a>
+          <b-col sm="6" md="4">
+            <a class="f_logo" :href="'/ipns/'+global.id+'/'"></a>
           </b-col>
         </b-row>
       </b-container>

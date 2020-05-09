@@ -73,6 +73,11 @@ export default {
     padding-right:5px;
     padding-bottom: 15px;
   }
+  .row >.col-sm-6, .row >.col-md-4, .row >.col-lg-3, .row >.col-xl-2 {
+    padding-left:5px;
+    padding-right:5px;
+    padding-bottom: 15px;
+  }
   .card > .card-body{
     padding: 0.4rem;
   }

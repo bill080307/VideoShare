@@ -1,6 +1,6 @@
 {
   "name": "home",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -8,8 +8,8 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "bootstrap-vue": "^2.11.0",
-    "ipfs": "^0.42.1",
+    "bootstrap-vue": "^2.13.1",
+    "ipfs": "^0.43.3",
     "qrcodejs2": "0.0.2",
     "vue": "^2.6.11",
     "vue-router": "^3.1.6"

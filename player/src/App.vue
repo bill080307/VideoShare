@@ -68,17 +68,17 @@
     <div class="footer">
       <b-container>
         <b-row>
-          <b-col cols="6">
+          <b-col sm="12" md="6">
             <b-row>
-              <b-col cols="4" v-for="l in global.links" :key="l.links"><a :href="l.link" >{{ l.title }}</a></b-col>
+              <b-col cols="4" v-for="l in global.links" :key="l.link"><a :href="l.link" >{{ l.title }}</a></b-col>
             </b-row>
           </b-col>
-          <b-col cols="2">
+          <b-col sm="6" md="2">
             <b-row>
               <div id="qrCodeipns" ref="qrCodeDivipns" class="qr"></div>
             </b-row>
           </b-col>
-          <b-col cols="4">
+          <b-col sm="6" md="4">
             <a class="f_logo" :href="'/ipns/'+global.id+'/'"></a>
           </b-col>
         </b-row>

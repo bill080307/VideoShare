@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "bootstrap-vue": "^2.11.0",
+    "bootstrap-vue": "^2.13.1",
     "qrcodejs2": "0.0.2",
     "vue": "^2.6.11",
     "vue-router": "^3.1.6"

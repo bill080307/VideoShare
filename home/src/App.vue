@@ -52,7 +52,7 @@
             </b-row>
           </b-col>
           <b-col sm="6" md="4">
-            <a class="f_logo" href="#"></a>
+            <a class="f_logo" :href="'/ipns/'+global.id+'/'"></a>
           </b-col>
         </b-row>
       </b-container>

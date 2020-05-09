@@ -8,9 +8,9 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "bootstrap-vue": "^2.11.0",
+    "bootstrap-vue": "^2.13.1",
     "qrcodejs2": "0.0.2",
-    "video.js": "^7.7.5",
+    "video.js": "^7.7.6",
     "vue": "^2.6.11",
     "vue-json-viewer": "^2.2.11"
   },

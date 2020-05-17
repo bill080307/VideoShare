@@ -5,7 +5,9 @@
         <b-container>
           <b-navbar-nav>
             <b-nav-item to="/">主站</b-nav-item>
-            <b-nav-item href="https://github.com/bill080307/douyinWithEth">短视频</b-nav-item>
+            <b-nav-item href="https://github.com/bill080307/VideoShare">主站源码</b-nav-item>
+            <b-nav-item href="/ipns/QmeHccaAitY3h6QUyf4VrgKziAdSpwrDuu7ETyxrpax1oZ/">短视频</b-nav-item>
+            <b-nav-item href="https://github.com/bill080307/douyinWithEth">短视频源码</b-nav-item>
             <b-nav-item href="#">直播</b-nav-item>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">

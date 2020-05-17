@@ -88,7 +88,7 @@
         });
         await Axios.get('./banner.json').then(async (res)=>{
           this.banners = res.data.banners;
-          this.bannervideolist = await this.find_video(res.data.bannervideolist, 6);
+          this.bannervideolist = await this.find_video(res.data.bannervideolist, 3);
         });
 
         await Axios.get('./whitelist.json').then(async (res)=>{
@@ -138,15 +138,24 @@
           let temp = await Axios.get('/ipns/'+typelist[i].id+'/'+typelist[i].usertype+'.json').then((res)=>{
             return res.data;
           }).catch((err)=>{
-              console.log(err);
               return [];
           });
-          for (let j=0;j<temp.length && num > res.length;j++){
+          for (let j = 0; j < temp.length; j++) {
             res.push(temp[j])
           }
-          if(res.length>=num)break;
         }
-        return res;
+        let video = [];
+        if(res.length<=num){
+          video = res
+        }else{
+            for(let i=0;i<num;i++){
+                let len = res.length-1;
+                let number = Math.floor(Math.random()*len);
+                video.push(res[number]);
+                res.splice(number,1);
+            }
+        }
+        return video;
       }
     },
     created() {
@@ -156,12 +165,12 @@
 </script>
 <style>
   .row >.col-sm-6, .row >.col-md-4, .row >.col-lg-3, .row >.col-xl-2 {
-    padding-left:5px;
-    padding-right:5px;
+    padding-left: 1px;
+    padding-right: 1px;
     padding-bottom: 15px;
   }
   .card > .card-body{
-    padding: 0.4rem;
+    padding: 0.1rem;
   }
   a > h4{
     font-size: 0.8rem;

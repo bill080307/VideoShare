@@ -5,7 +5,7 @@
         <h2>{{ title }}</h2>
       </b-row>
       <b-row>
-        <b-col cols="2" v-for="video in videolist">
+        <b-col sm="6" md="4" lg="3" xl="2" v-for="video in videolist">
           <b-card :img-src="video.cover">
             <b-card-text>
               <a :href="video.url"><h4>{{ video.title }}</h4></a>
@@ -64,9 +64,9 @@
   }
 </script>
 <style>
-  .row > .col-4, .row > .col-2{
-    padding-left:5px;
-    padding-right:5px;
+  .row >.col-sm-6, .row >.col-md-4, .row >.col-lg-3, .row >.col-xl-2 {
+    padding-left: 1px;
+    padding-right: 1px;
     padding-bottom: 15px;
   }
   .card > .card-body{

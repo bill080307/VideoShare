@@ -177,13 +177,26 @@ export default {
         type:"video/mp4",
         src:item.url
       }];
+      const playnext = this.playnext;
       const player = videojs('player');
       player.ready(function(){
         const obj  = this;
         obj.src(sources);
         obj.load();
+          obj.on('ended', ()=>{
+              playnext(sources[0].src);
+          });
       });
-    }
+    },
+    playnext(url){
+      if(this.files.length>1){
+          for (let i = 0; i < this.files.length - 1; i++) {
+              if(this.files[i].url === url){
+                  this.playfile(this.files[i+1])
+              }
+          }
+      }
+    },
   },
   created() {
     this.init()

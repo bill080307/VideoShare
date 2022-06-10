@@ -118,13 +118,13 @@ export default {
     }
   },
   methods:{
-    init(){
-      Axios.get('./files.json').then((res)=>{
+    async init(){
+      await Axios.get('./files.json').then((res)=>{
         this.files = res.data.files;
         this.title = res.data.title;
         this.description = res.data.description;
         this.cover = res.data.cover;
-        this.playfile(this.files[0]);
+        setTimeout(()=>{this.playfile(this.files[0])},1)
         let myhash = window.location.pathname;
         let qrcode = '';
         if(myhash.substring(0, 6) === "/ipfs/"){
@@ -132,14 +132,14 @@ export default {
         }else {
             qrcode = window.location.href;
         }
-          new QRCode(this.$refs.qrCodeDiv, {
-              text: qrcode,
-              width: 120,
-              height: 120,
-              colorDark: "#333333",
-              colorLight: "#ffffff",
-              correctLevel: QRCode.CorrectLevel.L
-          });
+        new QRCode(this.$refs.qrCodeDiv, {
+          text: qrcode,
+          width: 120,
+          height: 120,
+          colorDark: "#333333",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.L
+        });
       });
       Axios.get('./user.json').then((res)=>{
         this.user = res.data;
@@ -174,7 +174,7 @@ export default {
       this.mediainfo = item.mediainfo;
       this.playfileurl = window.location.origin + item.url;
       const sources = [{
-        type:"video/mp4",
+        type: item.type === "m3u8"?"application/x-mpegURL":"video/mp4",
         src:item.url
       }];
       const playnext = this.playnext;
@@ -257,7 +257,7 @@ export default {
     display: inline-block;
     width: 300px;
     height: 100px;
-    background: url("/ipfs/QmSiGaJ6phBKWuDmYpEocLgZgmwfGnDP9wuHww4Skxkcfq");
+    background: url("assets/logo.png");
   }
   @media screen and (max-width:992px){
     .hidden-sm{

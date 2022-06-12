@@ -1,15 +1,15 @@
 {
   "name": "home",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "axios": "^0.21.1",
-    "bootstrap-vue": "^2.21.2",
-    "ipfs": "^0.53.2",
+    "axios": "^0.27.2",
+    "bootstrap-vue": "^2.22.0",
+    "ipfs": "^0.63.2",
     "qrcodejs2": "0.0.2",
     "vue": "^2.6.12",
     "vue-router": "^3.5.1"
@@ -17,7 +17,7 @@
   "devDependencies": {
     "@vue/cli-plugin-router": "^4.5.11",
     "@vue/cli-service": "^4.5.11",
-    "vue-template-compiler": "^2.6.12"
+    "vue-template-compiler": "^2.6.14"
   },
   "postcss": {
     "plugins": {

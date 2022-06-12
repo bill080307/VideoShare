@@ -140,6 +140,6 @@ export default {
     display: inline-block;
     width: 300px;
     height: 100px;
-    background: url("/ipfs/QmSiGaJ6phBKWuDmYpEocLgZgmwfGnDP9wuHww4Skxkcfq");
+    background: url("assets/logo.png");
   }
 </style>

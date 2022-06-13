@@ -1,22 +1,23 @@
 {
   "name": "player",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "axios": "^0.21.1",
-    "bootstrap-vue": "^2.21.2",
+    "axios": "^0.27.2",
+    "bootstrap-vue": "^2.22.0",
     "qrcodejs2": "0.0.2",
-    "video.js": "^7.10.2",
+    "video.js": "^7.19.2",
+    "videojs-contrib-hls": "^5.15.0",
     "vue": "^2.6.12",
-    "vue-json-viewer": "^2.2.18"
+    "vue-json-viewer": "^2.2.22"
   },
   "devDependencies": {
     "@vue/cli-service": "^4.5.11",
-    "vue-template-compiler": "^2.6.12"
+    "vue-template-compiler": "^2.6.14"
   },
   "postcss": {
     "plugins": {

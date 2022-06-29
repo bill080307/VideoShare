@@ -5,7 +5,10 @@
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item :href="'/ipns/'+user.id+'/#/'+type.name" v-for="type in user.type" :key="type.name">{{ type.title }}</b-nav-item>
+          <b-nav-item :href="'/ipns/'+user.id+'/#/'+type.name" v-for="type in user.type" :key="type.name">{{
+              type.title
+            }}
+          </b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown right>
@@ -16,7 +19,10 @@
             <b-dropdown-divider></b-dropdown-divider>
             <b-dropdown-item :href="global.dashboard">管理我的空间</b-dropdown-item>
             <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item :href="link.link" v-for="link in global.extend" :key="link.link">{{ link.title }}</b-dropdown-item>
+            <b-dropdown-item :href="link.link" v-for="link in global.extend" :key="link.link">{{
+                link.title
+              }}
+            </b-dropdown-item>
             <b-dropdown-item :href="global.client.download">下载客户端</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
@@ -24,7 +30,7 @@
     </b-navbar>
     <b-container fluid class="main">
       <b-row>
-        <b-col lg="9" >
+        <b-col lg="9">
           <video id="player" :poster="cover" controls autoplay class="video-js vjs-big-play-centered">
           </video>
           <h2 class="title">{{ title }}</h2>
@@ -34,7 +40,7 @@
           <b-card>
             <b-media>
               <b-img slot="aside" width="64" :src="user.avatar" rounded="circle"></b-img>
-              <h5 >{{ user.username }}</h5>
+              <h5>{{ user.username }}</h5>
               <p>{{ user.description }}</p>
             </b-media>
           </b-card>
@@ -44,7 +50,7 @@
               <div id="qrCode" ref="qrCodeDiv" class="qr"></div>
             </div>
             <div class="playerselect">
-              <p>加载其他解码器  (Html5可能不支持播放本页视频)</p>
+              <p>加载其他解码器 (Html5可能不支持播放本页视频)</p>
               <a :href="'potplayer://'+playfileurl">Potplayer for Windows</a><br>
               <a :href="'iina://weblink?url='+playfileurl">Iina player for Mac os</a>
             </div>
@@ -57,7 +63,7 @@
           <b-list-group class="filelist">
             <b-list-group-item button v-for="file in files" :key="file.url" @click="playfile(file)">
               {{ file.title }}
-              <b-badge variant="success" class="rate">{{ file.size/file.duration | formatRate}}</b-badge>
+              <b-badge variant="success" class="rate">{{ file.size / file.duration | formatRate }}</b-badge>
               <b-badge variant="warning" class="dura">{{ file.duration | formatDura }}</b-badge>
               <b-badge variant="info" class="size">{{ file.size | formatSize }}</b-badge>
             </b-list-group-item>
@@ -70,7 +76,7 @@
         <b-row>
           <b-col sm="12" md="6">
             <b-row>
-              <b-col cols="4" v-for="l in global.links" :key="l.link"><a :href="l.link" >{{ l.title }}</a></b-col>
+              <b-col cols="4" v-for="l in global.links" :key="l.link"><a :href="l.link">{{ l.title }}</a></b-col>
             </b-row>
           </b-col>
           <b-col sm="6" md="2">
@@ -91,46 +97,60 @@
 import Axios from 'axios'
 import videojs from 'video.js'
 import QRCode from 'qrcodejs2';
+
 export default {
   name: 'app',
-  data(){
+  data() {
     return {
-      title:"",
-      description:"",
+      title: "",
+      description: "",
       cover: "",
-      user:{
-        avatar:"",
-        username:"",
-        description:""
+      user: {
+        avatar: "",
+        username: "",
+        description: ""
       },
-      global:{
+      global: {
         id: "",
         dashboard: "",
         client: {
           download: ""
         },
-        extend:[],
-        links:[],
+        extend: [],
+        links: [],
       },
-      files:[],
+      files: [],
       playfileurl: '',
-      mediainfo:{}
+      mediainfo: {}
     }
   },
-  methods:{
-    async init(){
-      await Axios.get('./files.json').then((res)=>{
+  methods: {
+    async init() {
+      let hash = window.location.hash;
+      let files_json_file = "./files.json"
+      if (hash !== "") {
+        let files_json = hash.match("files.json=(.*)")
+        if (files_json !== null) {
+          files_json_file = files_json[1]
+          if (files_json_file.substr(0, 6) !== "/ipfs/") {
+            files_json_file = "/ipfs/" + files_json_file
+          }
+        }
+      }
+      await Axios.get(files_json_file).then((res) => {
         this.files = res.data.files;
         this.title = res.data.title;
         this.description = res.data.description;
         this.cover = res.data.cover;
-        setTimeout(()=>{this.playfile(this.files[0])},1)
+        setTimeout(() => {
+          this.playfile(this.files[0])
+        }, 1)
         let myhash = window.location.pathname;
         let qrcode = '';
-        if(myhash.substring(0, 6) === "/ipfs/"){
+        if (myhash.substring(0, 6) === "/ipfs/") {
           qrcode = myhash;
-        }else {
-            qrcode = window.location.href;
+        } else {
+          qrcode = window.location.href;
         }
         new QRCode(this.$refs.qrCodeDiv, {
           text: qrcode,
@@ -141,60 +161,60 @@ export default {
           correctLevel: QRCode.CorrectLevel.L
         });
       });
-      Axios.get('./user.json').then((res)=>{
+      Axios.get('./user.json').then((res) => {
         this.user = res.data;
         return this.user.id;
-      }).then((id)=>{
-        Axios.get('/ipns/'+id+'/user.json').then((res)=>{
+      }).then((id) => {
+        Axios.get('/ipns/' + id + '/user.json').then((res) => {
           this.user = res.data;
-        }).catch((err)=>{
+        }).catch((err) => {
           console.log(err)
         })
       });
-      Axios.get('./global.json').then((res)=>{
+      Axios.get('./global.json').then((res) => {
         this.global = res.data;
         return this.global.id;
-      }).then((id)=>{
-        Axios.get('/ipns/'+id+'/global.json').then((res)=>{
+      }).then((id) => {
+        Axios.get('/ipns/' + id + '/global.json').then((res) => {
           this.global = res.data;
-        }).catch((err)=>{
+        }).catch((err) => {
           console.log(err)
         });
-          new QRCode(this.$refs.qrCodeDivipns, {
-              text: '/ipns/'+id,
-              width: 120,
-              height: 120,
-              colorDark: "#333333",
-              colorLight: "#ffffff",
-              correctLevel: QRCode.CorrectLevel.L
-          });
+        new QRCode(this.$refs.qrCodeDivipns, {
+          text: '/ipns/' + id,
+          width: 120,
+          height: 120,
+          colorDark: "#333333",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.L
+        });
       });
     },
-    playfile(item){
+    playfile(item) {
       this.mediainfo = item.mediainfo;
       this.playfileurl = window.location.origin + item.url;
       const sources = [{
-        type: item.type === "m3u8"?"application/x-mpegURL":"video/mp4",
-        src:item.url
+        type: item.type === "m3u8" ? "application/x-mpegURL" : "video/mp4",
+        src: item.url
       }];
       const playnext = this.playnext;
       const player = videojs('player');
-      player.ready(function(){
-        const obj  = this;
+      player.ready(function () {
+        const obj = this;
         obj.src(sources);
         obj.load();
-          obj.on('ended', ()=>{
-              playnext(sources[0].src);
-          });
+        obj.on('ended', () => {
+          playnext(sources[0].src);
+        });
       });
     },
-    playnext(url){
-      if(this.files.length>1){
-          for (let i = 0; i < this.files.length - 1; i++) {
-              if(this.files[i].url === url){
-                  this.playfile(this.files[i+1])
-              }
+    playnext(url) {
+      if (this.files.length > 1) {
+        for (let i = 0; i < this.files.length - 1; i++) {
+          if (this.files[i].url === url) {
+            this.playfile(this.files[i + 1])
           }
+        }
       }
     },
   },
@@ -203,16 +223,16 @@ export default {
   },
   filters: {
     formatSize(size) {
-      const sub = ['B','K','M','G','T'];
+      const sub = ['B', 'K', 'M', 'G', 'T'];
       for (let i = 0; i < sub.length; i++) {
-        if(size<1024) return size.toFixed(2) + sub[i];
+        if (size < 1024) return size.toFixed(2) + sub[i];
         size /= 1024;
       }
       return '';
     },
     formatDura(time) {
       let min = time / 60;
-      return min.toFixed(0) + '分' + time%60 + '秒';
+      return min.toFixed(0) + '分' + time % 60 + '秒';
     },
     formatRate(bit) {
       let kbit = bit * 8 / 1024;
@@ -222,66 +242,77 @@ export default {
   },
   watch: {
     title(title) {
-      document.title = this.title !=="" ? this.title + " - VideoShare":"VideoShare";
+      document.title = this.title !== "" ? this.title + " - VideoShare" : "VideoShare";
     }
   }
 }
 </script>
 
 <style>
-  .title{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  #player{
-    width: 100%;
-    height: 80vh;
-  }
-  .info{
-    max-height: 80vh;
-    overflow: auto;
-  }
-  .filelist button{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .footer{
-    margin-top: 40px;
-    padding-top: 40px;
-    padding-bottom: 40px;
-    background-color: #f6f9fa;
-  }
-  .f_logo{
-    display: inline-block;
-    width: 300px;
-    height: 100px;
-    background: url("assets/logo.png");
-  }
-  @media screen and (max-width:992px){
-    .hidden-sm{
-      display: none;
-    }
-    #player{
-      width: 100%;
-      height: calc(57vw);
-    }
-  }
-  .ipfsqr{
-    width: 120px;
-    margin-right: 10px;
-    float: left;
-  }
-  .ipfsqr p{
-    margin-bottom: 4px;
-    text-align: center;
-  }
-  .playerselect{
+.title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
+#player {
+  width: 100%;
+  height: 80vh;
+}
+
+.info {
+  max-height: 80vh;
+  overflow: auto;
+}
+
+.filelist button {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.footer {
+  margin-top: 40px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #f6f9fa;
+}
+
+.f_logo {
+  display: inline-block;
+  width: 300px;
+  height: 100px;
+  background: url("assets/logo.png");
+}
+
+@media screen and (max-width: 992px) {
+  .hidden-sm {
+    display: none;
   }
-  .playerselect p{
-    margin-bottom: 4px;
-    text-align: center;
+
+  #player {
+    width: 100%;
+    height: calc(57vw);
   }
+}
+
+.ipfsqr {
+  width: 120px;
+  margin-right: 10px;
+  float: left;
+}
+
+.ipfsqr p {
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.playerselect {
+
+}
+
+.playerselect p {
+  margin-bottom: 4px;
+  text-align: center;
+}
 </style>

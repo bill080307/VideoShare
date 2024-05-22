@@ -7,8 +7,8 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "axios": "^0.21.1",
-    "bootstrap-vue": "^2.21.2",
+    "axios": "^1.7.2",
+    "bootstrap-vue": "^2.23.1",
     "ipfs-http-client": "^48.2.2",
     "vue": "^2.6.12",
     "vue-router": "^3.5.1",
@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@vue/cli-service": "^4.5.11",
-    "vue-template-compiler": "^2.6.12"
+    "vue-template-compiler": "^2.7.16"
   },
   "postcss": {
     "plugins": {

@@ -7,17 +7,17 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "axios": "^0.27.2",
-    "bootstrap-vue": "^2.22.0",
+    "axios": "^1.7.2",
+    "bootstrap-vue": "^2.23.1",
     "qrcodejs2": "0.0.2",
-    "video.js": "^7.19.2",
+    "video.js": "^8.12.0",
     "videojs-contrib-hls": "^5.15.0",
     "vue": "^2.6.12",
     "vue-json-viewer": "^2.2.22"
   },
   "devDependencies": {
     "@vue/cli-service": "^4.5.11",
-    "vue-template-compiler": "^2.6.14"
+    "vue-template-compiler": "^2.7.16"
   },
   "postcss": {
     "plugins": {
